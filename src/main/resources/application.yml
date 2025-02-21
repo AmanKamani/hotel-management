@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: HotelManagement
+
+  # DB Configurations
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hotel-management
+    username: postgres
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
