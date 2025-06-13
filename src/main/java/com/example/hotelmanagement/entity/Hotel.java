@@ -32,6 +32,9 @@ public class Hotel extends Common {
     @Column(nullable = false)
     private Boolean active;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User owner;
+
 //    /**
 //     * To fetch all the rooms of a hotel. But we have already done a reverse inside Room table with ManyToOne
 //     */
