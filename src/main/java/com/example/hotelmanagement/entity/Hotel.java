@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -35,9 +37,9 @@ public class Hotel extends Common {
     @ManyToOne(fetch = FetchType.LAZY)
     private User owner;
 
-//    /**
-//     * To fetch all the rooms of a hotel. But we have already done a reverse inside Room table with ManyToOne
-//     */
-//    @OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY)
-//    private List<Room> rooms;
+    /**
+     * To fetch all the rooms of a hotel. But we have already done a reverse inside Room table with ManyToOne
+     */
+    @OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY)
+    private List<Room> rooms;
 }
