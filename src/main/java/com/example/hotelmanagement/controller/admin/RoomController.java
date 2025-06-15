@@ -4,6 +4,7 @@ import com.example.hotelmanagement.dto.request.RoomRequest;
 import com.example.hotelmanagement.dto.response.RoomResponse;
 import com.example.hotelmanagement.service.RoomService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class RoomController {
     private final RoomService roomService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public RoomResponse create(@PathVariable Long hotelId, @RequestBody RoomRequest roomRequest) {
         return roomService.create(hotelId, roomRequest);
     }
@@ -36,6 +38,7 @@ public class RoomController {
     }
 
     @DeleteMapping("/{roomId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long hotelId, @PathVariable Long roomId) {
         roomService.delete(hotelId, roomId);
     }
