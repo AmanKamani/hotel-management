@@ -12,4 +12,6 @@ public interface HotelService {
     HotelResponse update(Long id, HotelRequest hotelRequest);
 
     Void delete(Long id);
+
+    Void activate(Long id);
 }

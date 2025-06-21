@@ -6,10 +6,13 @@ import com.example.hotelmanagement.entity.Hotel;
 import com.example.hotelmanagement.exception.ResourceNotFoundException;
 import com.example.hotelmanagement.repository.HotelRepository;
 import com.example.hotelmanagement.service.HotelService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class HotelServiceImpl implements HotelService {
@@ -43,9 +46,30 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
+    // TODO: Add transactional annotation
     public Void delete(Long id) {
         Hotel hotel = getHotelByIdOrThrow(id);
         hotelRepository.delete(hotel);
+
+        // TODO: delete room inventory
+        // TODO: delete room
+
+        return null;
+    }
+
+    @Override
+    @Transactional
+    public Void activate(Long id) {
+        Hotel hotel = getHotelByIdOrThrow(id);
+        if (hotel.getActive()) {
+            log.info("Hotel [{}] is already active.", hotel.getId());
+            return null;
+        }
+        hotel.setActive(true);
+
+        hotelRepository.save(hotel);
+
+        log.info("Activated hotel [{}]", hotel.getId());
         return null;
     }
 
