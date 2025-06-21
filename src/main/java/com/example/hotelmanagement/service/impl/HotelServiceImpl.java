@@ -6,6 +6,7 @@ import com.example.hotelmanagement.entity.Hotel;
 import com.example.hotelmanagement.exception.ResourceNotFoundException;
 import com.example.hotelmanagement.repository.HotelRepository;
 import com.example.hotelmanagement.service.HotelService;
+import com.example.hotelmanagement.service.InventoryService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ public class HotelServiceImpl implements HotelService {
     private final HotelRepository hotelRepository;
     private final ModelMapper mapper;
     private final ModelMapper modelMapper;
+    private final InventoryService inventoryService;
 
 
     @Override
@@ -69,7 +71,9 @@ public class HotelServiceImpl implements HotelService {
 
         hotelRepository.save(hotel);
 
-        log.info("Activated hotel [{}]", hotel.getId());
+        inventoryService.createRoomsInventoryForAYear(hotel.getRooms());
+
+        log.info("Activated hotel [{}] and created inventory for all rooms", hotel.getId());
         return null;
     }
 
