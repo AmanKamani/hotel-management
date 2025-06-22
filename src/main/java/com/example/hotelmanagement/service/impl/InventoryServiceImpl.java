@@ -23,8 +23,8 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public void createRoomsInventoryForAYear(List<Room> rooms) {
         rooms.forEach(room -> {
-            LocalDateTime current = LocalDateTime.now();
-            final LocalDateTime upto = current.plusYears(1);
+            LocalDate current = LocalDate.now();
+            final LocalDate upto = current.plusYears(1);
 
             final List<Inventory> inventories = new ArrayList<>();
             for(; current.isBefore(upto); current = current.plusDays(1)) {
@@ -36,11 +36,11 @@ public class InventoryServiceImpl implements InventoryService {
         });
     }
 
-    private Inventory createInventory(Room room, LocalDateTime dateTime) {
+    private Inventory createInventory(Room room, LocalDate date) {
         return Inventory.builder()
                 .hotel(room.getHotel())
                 .room(room)
-                .dateTime(dateTime)
+                .date(date)
                 .bookedCount(0)
                 .totalCount(room.getTotalCount())
                 .city(room.getHotel().getCity())
