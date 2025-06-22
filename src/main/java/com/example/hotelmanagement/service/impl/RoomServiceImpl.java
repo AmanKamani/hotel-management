@@ -75,13 +75,12 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    // TODO: Add transactional annotation
     public Void delete(Long hotelId, Long roomId) {
         if (!roomRepository.existsRoomByIdAndHotel_Id(roomId, hotelId)) {
             throw new ResourceNotFoundException(String.format(String.format("Room [%s] Not Found for hotel [%s]",  roomId, hotelId)));
         }
 
-        // TODO: call to delete inventory
+        // automatically deletes the inventory because of orphan removal
         roomRepository.deleteById(roomId);
         return null;
     }

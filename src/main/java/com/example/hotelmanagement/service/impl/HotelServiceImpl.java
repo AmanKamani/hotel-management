@@ -48,13 +48,12 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    // TODO: Add transactional annotation
     public Void delete(Long id) {
         Hotel hotel = getHotelByIdOrThrow(id);
         hotelRepository.delete(hotel);
-
-        // TODO: delete room inventory
-        // TODO: delete room
+        // automatically deletes room, because of orphan removal
+        // room entity also has orphan removal for inventory
+        // So, deleting hotel will delete all the rooms & related inventories
 
         return null;
     }

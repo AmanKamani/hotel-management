@@ -36,14 +36,6 @@ public class InventoryServiceImpl implements InventoryService {
         });
     }
 
-    @Override
-    public void deleteFutureInventoryForRooms(LocalDateTime dateTime, List<Room> rooms) {
-        rooms.forEach(room -> {
-            inventoryRepository.deleteByDateTimeAfterAndRoom(dateTime, room);
-            log.info("Deleted inventory for room [{}]", room.getId());
-        });
-    }
-
     private Inventory createInventory(Room room, LocalDateTime dateTime) {
         return Inventory.builder()
                 .hotel(room.getHotel())
