@@ -39,7 +39,10 @@ public class Hotel extends Common {
 
     /**
      * To fetch all the rooms of a hotel. But we have already done a reverse inside Room table with ManyToOne
+     * automatically deletes room, because of orphan removal.
+     * room entity also has orphan removal for inventory {@link Room#getInventories()}.
+     * So, deleting hotel will delete all the rooms & related inventories.
      */
-    @OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Room> rooms;
 }

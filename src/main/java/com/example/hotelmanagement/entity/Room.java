@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -45,4 +46,10 @@ public class Room extends Common {
 
     @Column(nullable = false)
     private Integer capacity;
+
+    /**
+     * automatically deletes inventory, when room is deleted
+     */
+    @OneToMany(mappedBy = "room", orphanRemoval = true)
+    private List<Inventory>  inventories;
 }

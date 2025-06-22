@@ -35,4 +35,10 @@ public class HotelController {
     public Void delete(@PathVariable Long id) {
         return hotelService.delete(id);
     }
+
+    @PatchMapping("/{id}/activate")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public Void activate(@PathVariable Long id) {
+        return hotelService.activate(id);
+    }
 }

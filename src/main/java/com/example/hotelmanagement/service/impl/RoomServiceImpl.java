@@ -7,7 +7,9 @@ import com.example.hotelmanagement.entity.Room;
 import com.example.hotelmanagement.exception.ResourceNotFoundException;
 import com.example.hotelmanagement.repository.HotelRepository;
 import com.example.hotelmanagement.repository.RoomRepository;
+import com.example.hotelmanagement.service.InventoryService;
 import com.example.hotelmanagement.service.RoomService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -24,8 +26,10 @@ public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
     private final HotelRepository hotelRepository;
     private final ModelMapper modelMapper;
+    private final InventoryService inventoryService;
 
     @Override
+    @Transactional
     public RoomResponse create(Long hotelId, RoomRequest roomRequest) {
         Hotel hotel = getHotelByIdOrThrow(hotelId);
 
@@ -33,7 +37,13 @@ public class RoomServiceImpl implements RoomService {
         room.setHotel(hotel);
 
         Room roomSaved = roomRepository.save(room);
-        log.info("Room create with ID [{}] for Hotel [{}] Successfully", roomSaved.getId(), hotelId);
+        log.info("Room created with ID [{}] for Hotel [{}] Successfully.", roomSaved.getId(), hotelId);
+
+        if (Boolean.TRUE.equals(hotel.getActive())) {
+            inventoryService.createRoomsInventoryForAYear(List.of(roomSaved));
+            log.info("Added inventory for a year for room [{}]", roomSaved.getId());
+        }
+
         return modelMapper.map(roomSaved, RoomResponse.class);
     }
 
@@ -70,6 +80,7 @@ public class RoomServiceImpl implements RoomService {
             throw new ResourceNotFoundException(String.format(String.format("Room [%s] Not Found for hotel [%s]",  roomId, hotelId)));
         }
 
+        // automatically deletes the inventory because of orphan removal
         roomRepository.deleteById(roomId);
         return null;
     }
