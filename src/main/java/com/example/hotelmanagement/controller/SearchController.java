@@ -1,24 +1,29 @@
 package com.example.hotelmanagement.controller;
 
 import com.example.hotelmanagement.dto.request.HotelSearchRequest;
+import com.example.hotelmanagement.dto.response.HotelInfoResponse;
 import com.example.hotelmanagement.dto.response.HotelResponse;
+import com.example.hotelmanagement.service.HotelService;
 import com.example.hotelmanagement.service.InventoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/hotel")
+@RequestMapping("/search/hotel")
 @RequiredArgsConstructor
 public class SearchController {
 
     private final InventoryService inventoryService;
+    private final HotelService hotelService;
 
-    @PostMapping("/search")
+    @PostMapping
     public Page<HotelResponse> searchHotels(@RequestBody HotelSearchRequest request) {
         return inventoryService.searchHotels(request);
+    }
+
+    @GetMapping("/{hotelId}/info")
+    public HotelInfoResponse getHotelInfo(@PathVariable("hotelId") Long hotelId) {
+        return hotelService.getHotelInfo(hotelId);
     }
 }

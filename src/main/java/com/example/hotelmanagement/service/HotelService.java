@@ -1,6 +1,7 @@
 package com.example.hotelmanagement.service;
 
 import com.example.hotelmanagement.dto.request.HotelRequest;
+import com.example.hotelmanagement.dto.response.HotelInfoResponse;
 import com.example.hotelmanagement.dto.response.HotelResponse;
 
 public interface HotelService {
@@ -14,4 +15,6 @@ public interface HotelService {
     Void delete(Long id);
 
     Void activate(Long id);
+
+    HotelInfoResponse getHotelInfo(Long id);
 }
