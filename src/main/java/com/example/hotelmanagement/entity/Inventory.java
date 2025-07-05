@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * Inventory is basically total number of rooms available on particular datetime.
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
         name = "inventory",
         uniqueConstraints = @UniqueConstraint(
                 name = "unique_hotel_room_datetime",
-                columnNames = {"hotel_id", "room_id", "date_time"}
+                columnNames = {"hotel_id", "room_id", "date"}
         )
 )
 @Builder
@@ -45,7 +45,7 @@ public class Inventory extends Common {
 
 
     @Column(nullable = false)
-    private LocalDateTime dateTime;
+    private LocalDate date;
 
     @Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
     private Integer bookedCount;

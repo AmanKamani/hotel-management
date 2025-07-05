@@ -1,7 +1,9 @@
 package com.example.hotelmanagement.service.impl;
 
 import com.example.hotelmanagement.dto.request.HotelRequest;
+import com.example.hotelmanagement.dto.response.HotelInfoResponse;
 import com.example.hotelmanagement.dto.response.HotelResponse;
+import com.example.hotelmanagement.dto.response.RoomResponse;
 import com.example.hotelmanagement.entity.Hotel;
 import com.example.hotelmanagement.exception.ResourceNotFoundException;
 import com.example.hotelmanagement.repository.HotelRepository;
@@ -12,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -74,6 +78,22 @@ public class HotelServiceImpl implements HotelService {
 
         log.info("Activated hotel [{}] and created inventory for all rooms", hotel.getId());
         return null;
+    }
+
+    @Override
+    public HotelInfoResponse getHotelInfo(Long id) {
+        Hotel hotel = getHotelByIdOrThrow(id);
+
+        List<RoomResponse> rooms = hotel.getRooms()
+                .stream()
+                .map(room -> mapper.map(room, RoomResponse.class))
+                .toList();
+        log.info("Received hotel [{}] and total [{}] rooms", hotel.getId(), rooms.size());
+        HotelInfoResponse response = new HotelInfoResponse();
+        response.setHotel(mapper.map(hotel, HotelResponse.class));
+        response.setRooms(rooms);
+
+        return response;
     }
 
     private Hotel getHotelByIdOrThrow(Long id) {
