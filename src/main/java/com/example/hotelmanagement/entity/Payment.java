@@ -26,4 +26,8 @@ public class Payment extends Common {
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
+
+    @OneToOne
+    @JoinColumn(name = "booking_id",nullable = false)
+    private Booking booking;
 }
