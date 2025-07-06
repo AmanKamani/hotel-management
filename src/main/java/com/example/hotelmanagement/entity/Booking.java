@@ -2,8 +2,7 @@ package com.example.hotelmanagement.entity;
 
 import com.example.hotelmanagement.entity.enums.BookingStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,6 +11,9 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "booking")
 public class Booking extends Common {
 
