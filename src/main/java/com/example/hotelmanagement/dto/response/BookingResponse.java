@@ -1,7 +1,6 @@
 package com.example.hotelmanagement.dto.response;
 
 
-import com.example.hotelmanagement.entity.User;
 import com.example.hotelmanagement.entity.enums.BookingStatus;
 import lombok.Data;
 
@@ -12,7 +11,7 @@ import java.util.Set;
 public class BookingResponse {
 
     private Long id;
-    private User user;
+    private UserResponse user;
     private Integer roomsCount;
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
