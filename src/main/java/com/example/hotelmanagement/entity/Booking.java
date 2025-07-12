@@ -2,15 +2,18 @@ package com.example.hotelmanagement.entity;
 
 import com.example.hotelmanagement.entity.enums.BookingStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Getter
 @Setter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "booking")
 public class Booking extends Common {
 
@@ -34,14 +37,10 @@ public class Booking extends Common {
     private Integer roomsCount;
 
     @Column(nullable = false)
-    private LocalDateTime checkInDateTime;
+    private LocalDate checkInDate;
 
     @Column(nullable = false)
-    private LocalDateTime checkOutDateTime;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "payment_id")
-    private Payment payment;
+    private LocalDate checkOutDate;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -67,5 +66,8 @@ public class Booking extends Common {
             inverseJoinColumns = @JoinColumn(name = "guest_id")
     )
     private Set<Guest> guests;
+
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal amount;
 
 }

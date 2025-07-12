@@ -68,6 +68,7 @@ public class InventoryServiceImpl implements InventoryService {
                 .room(room)
                 .date(date)
                 .bookedCount(0)
+                .reservedCount(0)
                 .totalCount(room.getTotalCount())
                 .city(room.getHotel().getCity())
                 .closed(false)
