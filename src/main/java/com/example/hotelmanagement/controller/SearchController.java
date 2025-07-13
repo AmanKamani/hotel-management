@@ -2,7 +2,7 @@ package com.example.hotelmanagement.controller;
 
 import com.example.hotelmanagement.dto.request.HotelSearchRequest;
 import com.example.hotelmanagement.dto.response.HotelInfoResponse;
-import com.example.hotelmanagement.dto.response.HotelResponse;
+import com.example.hotelmanagement.dto.response.HotelMinPriceResponse;
 import com.example.hotelmanagement.service.HotelService;
 import com.example.hotelmanagement.service.InventoryService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class SearchController {
     private final HotelService hotelService;
 
     @PostMapping
-    public Page<HotelResponse> searchHotels(@RequestBody HotelSearchRequest request) {
+    public Page<HotelMinPriceResponse> searchHotels(@RequestBody HotelSearchRequest request) {
         return inventoryService.searchHotels(request);
     }
 

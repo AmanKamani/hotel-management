@@ -1,10 +1,10 @@
 package com.example.hotelmanagement.service.impl;
 
 import com.example.hotelmanagement.dto.request.HotelSearchRequest;
-import com.example.hotelmanagement.dto.response.HotelResponse;
-import com.example.hotelmanagement.entity.Hotel;
+import com.example.hotelmanagement.dto.response.HotelMinPriceResponse;
 import com.example.hotelmanagement.entity.Inventory;
 import com.example.hotelmanagement.entity.Room;
+import com.example.hotelmanagement.repository.HotelMinPriceRepository;
 import com.example.hotelmanagement.repository.InventoryRepository;
 import com.example.hotelmanagement.service.InventoryService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +26,7 @@ import java.util.List;
 public class InventoryServiceImpl implements InventoryService {
 
     private final InventoryRepository inventoryRepository;
+    private final HotelMinPriceRepository hotelMinPriceRepository;
     private final ModelMapper modelMapper;
 
     @Override
@@ -46,20 +46,16 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public Page<HotelResponse> searchHotels(HotelSearchRequest searchRequest) {
+    public Page<HotelMinPriceResponse> searchHotels(HotelSearchRequest searchRequest) {
         Pageable pageable = PageRequest.of(searchRequest.getPage(), searchRequest.getPageSize());
-        final long dateCount = ChronoUnit.DAYS.between(searchRequest.getStartDate(), searchRequest.getEndDate()) + 1;
+//        final long dateCount = ChronoUnit.DAYS.between(searchRequest.getStartDate(), searchRequest.getEndDate()) + 1;
 
-        Page<Hotel> hotels = inventoryRepository.findHotelsWithAvailableInventory(
+        return hotelMinPriceRepository.findHotelsWithAvailableInventory(
                 searchRequest.getCity(),
                 searchRequest.getStartDate(),
                 searchRequest.getEndDate(),
-                searchRequest.getRequiredRoom(),
-                dateCount,
                 pageable
         );
-
-        return hotels.map(hotel -> modelMapper.map(hotel, HotelResponse.class));
     }
 
     private Inventory createInventory(Room room, LocalDate date) {
