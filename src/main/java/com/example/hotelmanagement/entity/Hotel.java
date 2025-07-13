@@ -1,5 +1,6 @@
 package com.example.hotelmanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,6 +44,7 @@ public class Hotel extends Common {
      * room entity also has orphan removal for inventory {@link Room#getInventories()}.
      * So, deleting hotel will delete all the rooms & related inventories.
      */
+    @JsonIgnore
     @OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Room> rooms;
 }
